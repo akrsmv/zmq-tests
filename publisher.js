@@ -9,8 +9,8 @@ sock.bindSync(`tcp://127.0.0.1:${port}`);
 console.log(`Publisher bound to port ${port}`);
 
 let count = 0
-setInterval(function() {
+setInterval(function () {
   count++
   console.log(`PUB[port:${port}] ${topic}`, count);
-  sock.send([topic, JSON.stringify({count})]);
+  sock.send([topic, JSON.stringify({ count })]);
 }, 500);
