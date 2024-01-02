@@ -12,10 +12,9 @@ for (var port of ports.split(",")) {
 
 for (var topic of topics.split(",")) {
   sock.subscribe(topic);
-  console.log(`Subcriber subscribed for ${topic}`)
-  sock.on("message", function (topic, body) {
-    console.log("subscriber: %s, %s", topic.toString(), JSON.parse(body.toString()));
-  });
+  console.log(`Subcriber subscribed for ${topic}`);
 }
 
-
+sock.on("message", function (topic, body) {
+  console.log("subscriber: %s, %s", topic.toString(), JSON.parse(body.toString()));
+});
