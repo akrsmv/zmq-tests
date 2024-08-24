@@ -1,16 +1,22 @@
-// pubber.js
-var zmq = require("zeromq"),
+const parse_agrv = require("./parse_argv");
+
+const zmq = require("zeromq"),
   sock = zmq.socket("pub");
 
-var topic = process.argv[2]
-var port = process.argv[3] || 3001
+const topics_by_port = parse_agrv()
 
-sock.bindSync(`tcp://127.0.0.1:${port}`);
-console.log(`Publisher bound to port ${port}`);
+for (const port of topics_by_port.keys()) {
+  sock.bindSync(`tcp://127.0.0.1:${port}`);
+  console.log(`Publisher bound to port ${port}`);
+}
 
 let count = 0
 setInterval(function () {
   count++
-  console.log(`PUB[port:${port}] ${topic}`, count);
-  sock.send([topic, JSON.stringify({ count })]);
+  for (const port of topics_by_port.keys()){
+    for (const topic of topics_by_port.get(port)) {
+      console.log(`PUB[port:${port}] ${topic}`, count);
+      sock.send([topic, JSON.stringify({ [`${topic}_payload_${port}`]:count })]);
+    }
+  }
 }, 500);

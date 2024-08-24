@@ -16,5 +16,5 @@ for (var topic of topics.split(",")) {
 }
 
 sock.on("message", function (topic, body) {
-  console.log("subscriber: %s, %s", topic.toString(), JSON.parse(body.toString()));
+  console.log("subscriber: %s, %s", topic.toString(), body.toString());//JSON.parse(body.toString()));
 });
